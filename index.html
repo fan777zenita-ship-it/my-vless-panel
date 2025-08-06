@@ -49,8 +49,8 @@
             if (!email) return alert('Введите имя пользователя');
 
             try {
-                // Генерируем ссылку
-                const vlessLink = `vless://${UUID}@${SERVER_IP}:${PORT}?encryption=none&security=reality&sni=${SNI}&fp=chrome&pbk=${PBK}&sid=80&type=grpc&serviceName=${SERVICE_NAME}#${email}`;
+                // Генерируем ссылку с ВСЕМИ нужными параметрами
+                const vlessLink = `vless://${UUID}@${SERVER_IP}:${PORT}?type=grpc&mode=gun&serviceName=${SERVICE_NAME}&security=reality&fp=chrome&sni=${SNI}&pbk=${PBK}&sid=80#${email}`;
 
                 document.getElementById('link').textContent = vlessLink;
                 document.getElementById('result').style.display = 'block';
