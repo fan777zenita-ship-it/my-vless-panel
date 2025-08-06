@@ -33,15 +33,15 @@
     </div>
 
     <script>
-        // Настройки (измени на свои)
+        // Настройки (все актуальные параметры)
         const PANEL_URL = 'http://95.181.173.115:54321/WB7LhotORWHGCqumN3';
-        const PANEL_USERNAME = 'B2ZzKBDDP0'; // ← ВАЖНО: вставь свой логин
-        const PANEL_PASSWORD = '6t4O0M2yN6'; // ← ВАЖНО: вставь свой пароль
+        const PANEL_USERNAME = 'B2ZzKBDDP0';
+        const PANEL_PASSWORD = '6t4O0M2yN6';
         const SERVER_IP = '95.181.173.115';
         const PORT = '443';
         const UUID = 'a7142645-3fc0-4cb7-8e15-40d0d06b9ff7';
         const SNI = 'www.microsoft.com';
-        const PBK = 'UGSNh793yF-igDGWs9tGEN2i7hi5j0SrgsBdxCS4RSw';
+        const PBK = 'TM8Czymm0PWudvfCrkTG39wOcB8YH_UIgud8sK_5Okk'; // ✅ Актуальный pbk из рабочей ссылки
         const SERVICE_NAME = 'video-call';
 
         async function createLink() {
@@ -49,7 +49,7 @@
             if (!email) return alert('Введите имя пользователя');
 
             try {
-                // Генерируем ссылку (в реальном проекте здесь будет запрос к API для создания клиента)
+                // Генерируем ссылку
                 const vlessLink = `vless://${UUID}@${SERVER_IP}:${PORT}?encryption=none&security=reality&sni=${SNI}&fp=chrome&pbk=${PBK}&sid=80&type=grpc&serviceName=${SERVICE_NAME}#${email}`;
 
                 document.getElementById('link').textContent = vlessLink;
