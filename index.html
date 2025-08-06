@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Мой VLESS-сервер</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode.js/lib/qrcode.min.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 40px; background: #f0f2f5; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        h1 { color: #1877f2; text-align: center; margin-bottom: 30px; }
+        input, button { padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; width: 100%; font-size: 16px; }
+        button { background: #1877f2; color: white; border: none; cursor: pointer; font-weight: bold; }
+        button:hover { background: #166fe5; }
+        #link { background: #f8f9fa; padding: 15px; border: 1px dashed #ccc; border-radius: 8px; word-break: break-all; margin: 15px 0; font-size: 14px; }
+        #qrcode { margin: 20px auto; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Мой VLESS-сервер</h1>
+
+        <div>
+            <input type="text" id="email" placeholder="Имя пользователя (например: user1)">
+            <button onclick="createLink()">Создать ссылку</button>
+        </div>
+
+        <div id="result" style="display: none;">
+            <h3>🔗 Готовая ссылка:</h3>
+            <div id="link"></div>
+            <button onclick="copyLink()">Копировать</button>
+            <div id="qrcode"></div>
+        </div>
+    </div>
+
+    <script>
+        // Настройки (измени на свои)
+        const PANEL_URL = 'http://95.181.173.115:54321/WB7LhotORWHGCqumN3';
+        const PANEL_USERNAME = 'B2ZzKBDDP0'; // ← ВАЖНО: вставь свой логин
+        const PANEL_PASSWORD = '6t4O0M2yN6'; // ← ВАЖНО: вставь свой пароль
+        const SERVER_IP = '95.181.173.115';
+        const PORT = '443';
+        const UUID = 'a7142645-3fc0-4cb7-8e15-40d0d06b9ff7';
+        const SNI = 'www.microsoft.com';
+        const PBK = 'UGSNh793yF-igDGWs9tGEN2i7hi5j0SrgsBdxCS4RSw';
+        const SERVICE_NAME = 'video-call';
+
+        async function createLink() {
+            const email = document.getElementById('email').value.trim();
+            if (!email) return alert('Введите имя пользователя');
+
+            try {
+                // Генерируем ссылку (в реальном проекте здесь будет запрос к API для создания клиента)
+                const vlessLink = `vless://${UUID}@${SERVER_IP}:${PORT}?encryption=none&security=reality&sni=${SNI}&fp=chrome&pbk=${PBK}&sid=80&type=grpc&serviceName=${SERVICE_NAME}#${email}`;
+
+                document.getElementById('link').textContent = vlessLink;
+                document.getElementById('result').style.display = 'block';
+
+                // Генерация QR-кода
+                const qrcodeDiv = document.getElementById('qrcode');
+                qrcodeDiv.innerHTML = ''; // Очистить
+                new QRCode(qrcodeDiv, {
+                    text: vlessLink,
+                    width: 128,
+                    height: 128
+                });
+            } catch (error) {
+                alert('Ошибка: ' + error.message);
+            }
+        }
+
+        function copyLink() {
+            const linkText = document.getElementById('link').textContent;
+            navigator.clipboard.writeText(linkText).then(() => {
+                alert('Ссылка скопирована!');
+            }).catch(err => {
+                alert('Не удалось скопировать: ' + err);
+            });
+        }
+    </script>
+</body>
+</html>
